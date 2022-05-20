@@ -3,7 +3,11 @@
   import Login from "./pages/Login.svelte"
   import Signup from "./pages/Signup.svelte"
   import Router from "svelte-spa-router";
-import Dashboard from "./pages/Dashboard.svelte";
+  import Dashboard from "./pages/Dashboard.svelte";
+  import {PlacemarkService} from "./services/PlacemarkService.js";
+  import { setContext } from "svelte";
+
+  setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
 
   let routes = {
     "/": Main,
