@@ -1,19 +1,27 @@
 <script>
   import 'leaflet/dist/leaflet.css';
   import {LeafletMap} from '../../services/leaflet-map';
-  import {onMount} from "svelte";
+  import {getContext, onMount} from "svelte";
 
+  const placemarkService = getContext("PlacemarkService");
 
   const mapConfig = {
     location: {lat: 46.427638, lng: 2.213749},
     zoom: 6,
     minZoom: 1,
   };
+  let map = null;
 
   onMount(async () => {
     const map = new LeafletMap("dashboard-map", mapConfig);
     map.showZoomControl();
     map.showLayerControl();
+
+    const placemarks = await placemarkService.getPlacemarks();
+    placemarks.forEach(placemark => {
+      const popupTitle = `<a href = "/#/placemark/${placemark._id}">${placemark.name}</a>`;
+      map.addMarker({lat: placemark.latitude, lng: placemark.longitude}, popupTitle);
+    });
   });
 </script>
 
