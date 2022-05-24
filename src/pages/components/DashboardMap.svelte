@@ -15,12 +15,17 @@
   onMount(async () => {
     const map = new LeafletMap("dashboard-map", mapConfig);
     map.showZoomControl();
+  
+    const regions = await placemarkService.getRegions();
+    regions.forEach(region => {
+      map.addLayerGroup(region.name);
+    });
     map.showLayerControl();
 
     const placemarks = await placemarkService.getPlacemarks();
     placemarks.forEach(placemark => {
       const popupTitle = `<a href = "/#/placemark/${placemark._id}">${placemark.name}</a>`;
-      map.addMarker({lat: placemark.latitude, lng: placemark.longitude}, popupTitle);
+      map.addMarker({lat: placemark.latitude, lng: placemark.longitude}, popupTitle, placemark.region);
     });
   });
 </script>
