@@ -4,6 +4,7 @@
   import Signup from "./pages/Signup.svelte"
   import Router from "svelte-spa-router";
   import Dashboard from "./pages/Dashboard.svelte";
+  import Placemark from "./pages/Placemark.svelte";
   import {PlacemarkService} from "./services/PlacemarkService.js";
   import { setContext } from "svelte";
 
@@ -15,7 +16,8 @@
     "/signup": Signup,
     "/main": Main,
     "/dashboard": Dashboard,
-    "/logout": Main
+    "/logout": Main,
+    "/placemark/:placemark": Placemark
   }
 </script>
 

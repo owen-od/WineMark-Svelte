@@ -1,5 +1,6 @@
 <script>
   import {getContext, onMount} from 'svelte'
+import Placemark from '../Placemark.svelte';
 
   const placemarkService = getContext("PlacemarkService");
   let placemarkList = [];
@@ -15,6 +16,7 @@
     <th>Latitude</th>
     <th>Longitude</th>
     <th>Region</th>
+    <th>Link</th>
   </thead>
   <tbody>
     {#each placemarkList as placemark}
@@ -30,6 +32,9 @@
         </td>
         <td>
           {placemark.region}
+        </td>
+        <td>
+          <a href = "/#/placemark/{placemark._id}">link</a>
         </td>
       </tr>
     {/each}

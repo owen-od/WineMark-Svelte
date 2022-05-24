@@ -71,9 +71,27 @@ export class PlacemarkService {
     }
   }
 
+  async getRegion(name) {
+    try {
+      const response = await axios.get(this.baseUrl + "/api/regions/" + name);
+      return response.data;
+    } catch (error) {
+      return [];
+    }
+  }
+
   async getPlacemarks() {
     try {
       const response = await axios.get(this.baseUrl + "/api/placemarks");
+      return response.data;
+    } catch (error) {
+      return [];
+    }
+  }
+
+  async getPlacemark(id) {
+    try {
+      const response = await axios.get(this.baseUrl + "/api/placemarks/" + id);
       return response.data;
     } catch (error) {
       return [];
