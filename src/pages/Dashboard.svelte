@@ -4,6 +4,7 @@ import MainNavigator from "./components/MainNavigator.svelte";
   import TitleBar from "./components/TitleBar.svelte";
   import PlacemarkForm from "./components/PlacemarkForm.svelte";
   import PlacemarkList from "./components/PlacemarkList.svelte";
+  import DashboardMap from "./components/DashboardMap.svelte";
 </script>
 
 <div class="columns is-vcentered">
@@ -17,6 +18,9 @@ import MainNavigator from "./components/MainNavigator.svelte";
 
 <section class="box">
   <h3 class="title is-3 has-text-centered" id="dashboard-map-heading">French Edition</h3>
+</section>
+<section class="box">
+  <DashboardMap/>
 </section>
 <section class="box">
   <h1 class="title is-3 has-text-centered">Placemarks to date</h1>
