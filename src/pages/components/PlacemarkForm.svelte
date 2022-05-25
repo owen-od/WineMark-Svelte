@@ -35,14 +35,13 @@
       }
         message = `Great - ${name} has been added as a placemark`
         dispatch("message", {
-          placemark: newPlacemark, // need to use returned placemark to have id for marker
+          placemark: newPlacemark, // need to use returned placemark to have id for url in marker
         });
       } else {
         message = "Please fill in all the details";
       }
     }
 </script>
-
 
 <div class="container">
   <div class ="box">

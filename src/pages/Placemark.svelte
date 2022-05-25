@@ -2,8 +2,11 @@
   import {getContext, onMount} from 'svelte'
   import MainNavigator from "./components/MainNavigator.svelte";
   import TitleBar from "./components/TitleBar.svelte";
+  import PlacemarkMap from './components/PlacemarkMap.svelte';
 
   const placemarkService = getContext("PlacemarkService");
+
+  let placemarkMap = null;
 
   export let params;
   
@@ -17,6 +20,7 @@
     region = await placemarkService.getRegion(placemark.region);
     vintages = region.vintages;
     grapes = region.grapes;
+    placemarkMap.addMarker(placemark);
   });
 
 </script>
@@ -44,7 +48,7 @@
 <section class="box">
   <div class="columns is-vcentered">
     <div class="column is-four-fifths">
-      <p>To add Map here</p>
+      <PlacemarkMap bind:this={placemarkMap} placemark={placemark}/>
     </div>
     <div class="column is-one-fifth has-text-centered">
       <h3 class="title is-3">{region.name} Region</h3>

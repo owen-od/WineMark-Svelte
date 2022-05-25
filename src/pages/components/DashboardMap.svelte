@@ -32,6 +32,7 @@
     const popupTitle = `<a href = "/#/placemark/${placemark._id}">${placemark.name}</a>`;
     map.addMarker({lat: placemark.latitude, lng: placemark.longitude}, popupTitle, placemark.region);
   }
+  
 </script>
 <div class="box" id="dashboard-map" style="height:800px">
 </div>

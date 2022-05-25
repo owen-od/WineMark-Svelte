@@ -30,6 +30,9 @@ export class LeafletMap {
 
   constructor(id, descriptor, activeLayer = "") {
     let defaultLayer = this.baseLayers.Terrain;
+    if (descriptor.defaultLayer) {
+      defaultLayer = this.baseLayers[descriptor.defaultLayer];
+    } 
     if (activeLayer) {
       defaultLayer = this.baseLayers[activeLayer];
     }
