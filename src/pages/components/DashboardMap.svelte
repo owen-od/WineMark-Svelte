@@ -13,7 +13,7 @@
   let map = null;
 
   onMount(async () => {
-    const map = new LeafletMap("dashboard-map", mapConfig);
+    map = new LeafletMap("dashboard-map", mapConfig);
     map.showZoomControl();
   
     const regions = await placemarkService.getRegions();
@@ -24,11 +24,14 @@
 
     const placemarks = await placemarkService.getPlacemarks();
     placemarks.forEach(placemark => {
-      const popupTitle = `<a href = "/#/placemark/${placemark._id}">${placemark.name}</a>`;
-      map.addMarker({lat: placemark.latitude, lng: placemark.longitude}, popupTitle, placemark.region);
+      addMarker(placemark);
     });
   });
+  
+  export function addMarker(placemark) {
+    const popupTitle = `<a href = "/#/placemark/${placemark._id}">${placemark.name}</a>`;
+    map.addMarker({lat: placemark.latitude, lng: placemark.longitude}, popupTitle, placemark.region);
+  }
 </script>
-
 <div class="box" id="dashboard-map" style="height:800px">
 </div>

@@ -1,8 +1,9 @@
 <script>
-  import {getContext, onMount} from "svelte";
+  import {createEventDispatcher, getContext, onMount} from "svelte";
   import {user} from "../../stores.js"
 
   const placemarkService = getContext("PlacemarkService");
+  const dispatch = createEventDispatcher();
 
   let name = "";
   let latitude = "";
@@ -27,12 +28,15 @@
         description: description,
         userid: $user._id,
       };
-      const success = await placemarkService.addPlacemark(placemark);
-      if (!success) {
+      const newPlacemark = await placemarkService.addPlacemark(placemark);
+      if (!newPlacemark) {
         message = "An error occured - placemark not added";
         return;
       }
         message = `Great - ${name} has been added as a placemark`
+        dispatch("message", {
+          placemark: newPlacemark, // need to use returned placemark to have id for marker
+        });
       } else {
         message = "Please fill in all the details";
       }
