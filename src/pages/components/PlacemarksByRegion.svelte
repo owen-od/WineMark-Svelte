@@ -42,4 +42,4 @@
   });
 </script>
 
-<Chart data={totalByRegion} type="line" title="Placemarks By Region"/>
+<Chart data={totalByRegion} type="bar" title="Placemarks By Region"/>

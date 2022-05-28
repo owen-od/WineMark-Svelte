@@ -4,13 +4,27 @@
   import PlacemarkForm from "./components/PlacemarkForm.svelte";
   import DashboardMap from "./components/DashboardMap.svelte";
   import PlacemarksByRegion from "./components/PlacemarksByRegion.svelte";
+  import PlacemarksByUser from "./components/PlacemarksByUser.svelte";
 
   let dashboardMap = null;
   let placemarksChart = null;
+  let usersChart = null;
+  let chart = "placemarkChart";
 
-  function placemarkAdded(event) {
-    placemarksChart.refreshChart();
+  async function placemarkAdded(event) {
     dashboardMap.addMarker(event.detail.placemark);
+    if (chart == "placemarkChart") { // currnently throws error if chart refresh not in if-else statement
+      placemarksChart.refreshChart();
+    } else {
+      usersChart.refreshChart();
+    }
+  }
+
+  function showRegion() {
+    chart = "placemarkChart";
+  }
+  function showUsers() {
+    chart = "userChart";
   }
 </script>
 
@@ -31,7 +45,14 @@
 </section>
 
 <section class="box">
-  <PlacemarksByRegion bind:this={placemarksChart}/>
+  <button class="button is-danger" on:click={showRegion}>By Region</button>
+  <button class="button is-info" on:click={showUsers}>By User</button>
+  <hr>
+  {#if chart == "placemarkChart"}
+    <PlacemarksByRegion bind:this={placemarksChart}/>
+  {:else}
+    <PlacemarksByUser bind:this={usersChart}/>
+  {/if}
 </section>
 
 <section class="box">
