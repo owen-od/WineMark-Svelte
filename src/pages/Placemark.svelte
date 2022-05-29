@@ -3,6 +3,7 @@
   import MainNavigator from "./components/MainNavigator.svelte";
   import TitleBar from "./components/TitleBar.svelte";
   import PlacemarkMap from './components/PlacemarkMap.svelte';
+  import { push } from "svelte-spa-router";
 
   const placemarkService = getContext("PlacemarkService");
 
@@ -22,6 +23,12 @@
     grapes = region.grapes;
     placemarkMap.addMarker(placemark);
   });
+
+  function deletePlacemark() {
+    placemarkService.deletePlacemark(placemark._id);
+    console.log("delete " + placemark._id);
+    push("/dashboard");
+  }
 
 </script>
 
@@ -80,6 +87,13 @@
         {/each}
       </ul>
     </div>
+  </div>
+</div>
+
+<hr>
+<div class="columns is-mobile">
+  <div class="column is-half is-offset-one-quarter has-text-centered">
+    <button class="button is-danger" on:click={deletePlacemark}> Delete Placemark </button>
   </div>
 </div>
 
