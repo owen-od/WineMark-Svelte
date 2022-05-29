@@ -38,10 +38,12 @@
 </div>
 
 <section class="box">
-  <h3 class="title is-3 has-text-centered" id="dashboard-map-heading">French Edition</h3>
+<section class="box" id="dashboard-map-heading">
+  <h3 class="title is-3 has-text-centered" id="dashboard-map-text">French Edition</h3>
 </section>
 <section class="box">
   <DashboardMap bind:this={dashboardMap}/>
+</section>
 </section>
 
 <section class="box">
@@ -58,3 +60,16 @@
 <section class="box">
   <PlacemarkForm on:message={placemarkAdded}/>
 </section>
+
+<style>
+  #dashboard-map-heading{
+    font-family: 'Poiret One', cursive;
+    background: linear-gradient(90deg, #002395, #FFFFFF, #ED2939);
+    margin-bottom: 1rem;
+}
+
+  #dashboard-map-text {
+    color:blue;
+  }
+  
+</style>

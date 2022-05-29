@@ -91,3 +91,11 @@
     {/if}
   </div>
 </div>
+
+<style>
+  #add-placemark-heading{
+    color: purple;
+    text-decoration: underline;
+    font-family: 'Poiret One', cursive;
+}
+</style>
