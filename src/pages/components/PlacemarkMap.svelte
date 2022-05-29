@@ -4,8 +4,6 @@
   import {getContext, onMount} from "svelte";
   import Placemark from '../Placemark.svelte';
   
-  export let placemark = {};
-
   export let map = null;
 
   const mapConfig = {
@@ -19,13 +17,12 @@
     map = new LeafletMap("placemark-map", mapConfig);
     map.showZoomControl();
     map.showLayerControl();
-
-    addMarker(placemark);
   });
   
  export function addMarker(placemark) {
    const popupTitle = `<p>${placemark.name}</p>`;
    map.addMarker({lat: placemark.latitude, lng: placemark.longitude}, popupTitle);
+   map.moveTo(17, placemark.latitude, placemark.longitude);
  }
   
 </script>

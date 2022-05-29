@@ -48,7 +48,7 @@
 <section class="box">
   <div class="columns is-vcentered">
     <div class="column is-four-fifths">
-      <PlacemarkMap bind:this={placemarkMap} placemark={placemark}/>
+      <PlacemarkMap bind:this={placemarkMap}/>
     </div>
     <div class="column is-one-fifth has-text-centered">
       <h3 class="title is-3">{region.name} Region</h3>

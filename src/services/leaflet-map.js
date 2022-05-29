@@ -67,9 +67,9 @@ export class LeafletMap {
       .addTo(this.imap);
   }
 
-  moveTo(zoom, location) {
+  moveTo(zoom, lat, lng) {
     this.imap.setZoom(zoom);
-    this.imap.panTo(new L.LatLng(location.lat, location.lng));
+    this.imap.panTo(new L.LatLng(lat, lng));
   }
 
   zoomTo(location) {
