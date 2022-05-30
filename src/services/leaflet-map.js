@@ -50,6 +50,15 @@ export class LeafletMap {
     this.imap.addLayer(layer);
   }
 
+  addTemperature() {
+    L.tileLayer('http://{s}.tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid={apiKey}', {
+      maxZoom: 19,
+      attribution: 'Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>',
+      apiKey: '9782ce4340037cde393220f4fe748998',
+      opacity: 1
+    }).addTo(this.imap);
+  }
+
   addLayerGroup(title) {
     this.overlays[title] = L.layerGroup([]);
     this.imap.addLayer(this.overlays[title]);

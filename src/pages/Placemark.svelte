@@ -4,10 +4,12 @@
   import TitleBar from "./components/TitleBar.svelte";
   import PlacemarkMap from './components/PlacemarkMap.svelte';
   import { push } from "svelte-spa-router";
+  import WeatherMap from './components/WeatherMap.svelte';
 
   const placemarkService = getContext("PlacemarkService");
 
   let placemarkMap = null;
+  let weatherMap = null;
 
   export let params;
   
@@ -32,6 +34,7 @@
     windDirection = weather.windDirection;
     humidity = weather.humidity;
     conditions = weather.conditions;
+    weatherMap.addMarker(placemark, temp);
   });
 
   function deletePlacemark() {
@@ -117,7 +120,7 @@
 </div>
 
 <div class="columns is-vcentered">
-  <div class="column is-one-third is-offset-one-third">
+  <div class="column is-one-half">
     <section class="box">
       <h3 class="title is-4 has-text-centered">Current Weather Conditions</h3> 
       <hr>
@@ -133,7 +136,10 @@
       <i style="font-size: 24px; color: grey; float: left; padding-right: 1em; " class="fas fa-solid fa-wind"></i>
       <p>Wind Speed: {windSpeed} mph</p>
     </section>
-      </div>
+  </div>
+  <div class="column is-one-half">
+    <WeatherMap bind:this={weatherMap}/>
+  </div>
 </div>
 
 <hr>
@@ -142,8 +148,6 @@
     <button class="button is-danger" on:click={deletePlacemark}> Delete Placemark </button>
   </div>
 </div>
-
-
 
 <style>
   #grape-list{
