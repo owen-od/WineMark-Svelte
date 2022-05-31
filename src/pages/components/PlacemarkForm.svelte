@@ -1,6 +1,7 @@
 <script>
   import {createEventDispatcher, getContext, onMount} from "svelte";
   import {user} from "../../stores.js"
+  import sanitizeHtml from "sanitize-html";
 
   const placemarkService = getContext("PlacemarkService");
   const dispatch = createEventDispatcher();
@@ -21,11 +22,11 @@
   async function addPlacemark() {
     if (name && latitude && longitude && region && description) {
       const placemark = {
-        name: name,
-        latitude: latitude,
-        longitude: longitude,
-        region: region, 
-        description: description,
+        name: sanitizeHtml(name),
+        latitude: sanitizeHtml(latitude),
+        longitude: sanitizeHtml(longitude),
+        region: sanitizeHtml(region), 
+        description: sanitizeHtml(description),
         userid: $user._id,
       };
       const newPlacemark = await placemarkService.addPlacemark(placemark);
