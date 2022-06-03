@@ -1,5 +1,5 @@
 <script>
-  import {getContext, onMount} from 'svelte'
+  import {getContext, onMount, createEventDispatcher} from 'svelte'
   import MainNavigator from "./components/MainNavigator.svelte";
   import TitleBar from "./components/TitleBar.svelte";
   import PlacemarkMap from './components/PlacemarkMap.svelte';
@@ -8,18 +8,16 @@
 
   const placemarkService = getContext("PlacemarkService");
 
+  export let params;
+
   let placemarkMap = null;
   let weatherMap = null;
-
-  export let params;
-  
   let placemark = {};
   let region = {};
   let vintages = [];
   let grapes = [];
   let weather = null;
   let pressure, temp, windSpeed, windDirection, conditions, humidity;
-
 
   onMount(async () => {
     placemark = await placemarkService.getPlacemark(params.placemark);
@@ -59,6 +57,52 @@
     };
     return reading;
   }
+
+  const dispatch = createEventDispatcher();
+  const cloudName = "dtpedvn00";
+  const unsignedUploadPreset = "go5dq0iv";
+  export let multiple = false;
+  let uploadedFiles = [];
+
+  function handleUpload(event) {
+    if (multiple) {
+      for (let file = 0; file < event.target.files.length; file++) {
+        uploadFile(event.target.files[file], event.target.files.length);
+      }
+    } else {
+      uploadFile(event.target.files[0], 1);
+    }
+  }
+
+  async function uploadFile(file, length) {
+    var formdata = new FormData();
+    formdata.append("file", file, file.name);
+    formdata.append("upload_preset", unsignedUploadPreset);
+    formdata.append("tags", "browser_upload"); // Optional - add tag for image admin in Cloudinary
+    var url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+    var response = await fetch(url, {
+      method: "POST",
+      body: formdata,
+    });
+    response = await response.json();
+    const currentPlacemark = await placemarkService.getPlacemark(placemark._id);
+    placemark.img = response.url; // assign image string to variable so updates before page refresh
+    currentPlacemark.img = response.url // assign image string to variable to be uplaoded to db
+    await placemarkService.uploadImage(currentPlacemark); // upload image string to placemark in db
+    emitData(response, length);
+  }
+
+  function emitData(info, length) {
+    if (length == 1) {
+      dispatch("upload", info.url);
+    } else {
+      uploadedFiles.push(info.url);
+      if (length === uploadedFiles.length) {
+        dispatch("upload", uploadedFiles);
+      }
+    }
+  }
+
 </script>
 
 <div class="columns is-vcentered">
@@ -119,6 +163,9 @@
   </div>
 </div>
 
+<hr>
+<h3 class="title is-3 has-text-centered">La Météo</h3>
+<hr>
 <div class="columns is-vcentered">
   <div class="column is-one-half">
     <section class="box">
@@ -139,6 +186,36 @@
   </div>
   <div class="column is-one-half">
     <WeatherMap bind:this={weatherMap}/>
+  </div>
+</div>
+
+<hr>
+<h3 class="title is-3 has-text-centered">The Gallery</h3>
+<hr>
+<div class="columns is-mobile">
+  <div class="column is-half is-offset-one-quarter has-text-centered">
+    <div class="box">
+      <h3 class="title is-3">Mark your visit with a photo</h3>
+      <hr/>
+      <div class="card">
+        <div class="card-image">
+          <figure class="image is-256x256">
+            {#if placemark.img}
+              <img src={placemark.img} alt="placemark image" />
+            {/if}
+          </figure>
+        </div>
+        <div class="card-content">
+          <input
+            type="file"
+            name="file"
+            accept="image/x-png,image/jpeg,application/pdf"
+            on:change={handleUpload}
+            {multiple}
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

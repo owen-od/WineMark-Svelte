@@ -124,4 +124,13 @@ export class PlacemarkService {
       return false;
     }
   }
+
+  async uploadImage(placemark) {
+    try {
+      const response = await axios.post(this.baseUrl + "/api/placemarks/" + placemark._id, placemark);
+      return response.data;
+    } catch (error) {
+      return false;
+    }
+  }
 }
