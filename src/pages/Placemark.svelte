@@ -5,6 +5,8 @@
   import PlacemarkMap from './components/PlacemarkMap.svelte';
   import { push } from "svelte-spa-router";
   import WeatherMap from './components/WeatherMap.svelte';
+  import { Splide, SplideSlide } from '@splidejs/svelte-splide';
+  import '@splidejs/svelte-splide/css';
 
   const placemarkService = getContext("PlacemarkService");
 
@@ -16,12 +18,14 @@
   let region = {};
   let vintages = [];
   let grapes = [];
+  let images = [];
   let weather = null;
   let pressure, temp, windSpeed, windDirection, conditions, humidity;
 
   onMount(async () => {
     placemark = await placemarkService.getPlacemark(params.placemark);
     region = await placemarkService.getRegion(placemark.region);
+    images = placemark.img;
     vintages = region.vintages;
     grapes = region.grapes;
     placemarkMap.addMarker(placemark);
@@ -86,9 +90,10 @@
     });
     response = await response.json();
     const currentPlacemark = await placemarkService.getPlacemark(placemark._id);
-    placemark.img = response.url; // assign image string to variable so updates before page refresh
-    currentPlacemark.img = response.url // assign image string to variable to be uplaoded to db
-    await placemarkService.uploadImage(currentPlacemark); // upload image string to placemark in db
+    images.unshift(response.url); // add new image to beginning of image array so it updates on page
+    images = images; // trigger update to array
+    currentPlacemark.img = response.url // assign image string to placemark arrau to be uplaoded to db
+    await placemarkService.uploadImage(currentPlacemark); // upload image to placemark object in db
     emitData(response, length);
   }
 
@@ -156,7 +161,7 @@
       <h3 class="title is-3">Grape varieties of the {region.name} region</h3><hr>
       <ul id="grape-list">
         {#each grapes as grape}
-        <li><br>{grape}</li>
+          <li><br>{grape}</li>
         {/each}
       </ul>
     </div>
@@ -200,9 +205,15 @@
       <div class="card">
         <div class="card-image">
           <figure class="image is-256x256">
-            {#if placemark.img}
-              <img src={placemark.img} alt="placemark image" />
-            {/if}
+            <Splide options={ { height: '30vh', width: '50vw', heightRatio: 0.5 } } aria-label="Current Placemark Images">
+              {#if images.length > 0}
+                {#each images as image}
+                  <SplideSlide>
+                    <img src={image} alt="placemark image in image carousel">
+                  </SplideSlide>
+                {/each}
+              {/if}
+            </Splide>
           </figure>
         </div>
         <div class="card-content">

@@ -14,6 +14,7 @@
     "vite": "^2.9.9"
   },
   "dependencies": {
+    "@splidejs/svelte-splide": "^0.2.4",
     "axios": "^0.27.2",
     "leaflet": "^1.8.0",
     "sanitize-html": "^2.7.0",
