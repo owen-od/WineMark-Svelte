@@ -11,6 +11,7 @@
   let longitude = "";
   let region = "";
   let description = "";
+  let date = null;
 
   let message = "";
 
@@ -21,12 +22,15 @@
 
   async function addPlacemark() {
     if (name && latitude && longitude && region && description) {
+      date = new Date();
+      const timestamp = date.toString();
       const placemark = {
         name: sanitizeHtml(name),
         latitude: sanitizeHtml(latitude),
         longitude: sanitizeHtml(longitude),
         region: sanitizeHtml(region), 
         description: sanitizeHtml(description),
+        timestamp: timestamp,
         userid: $user._id,
       };
       const newPlacemark = await placemarkService.addPlacemark(placemark);
