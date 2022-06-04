@@ -44,7 +44,7 @@ export class PlacemarkService {
       _id: "",
     });
     axios.defaults.headers.common["Authorization"] = "";
-    localStorage.removeItem("donation");
+    localStorage.removeItem("winemark");
   }
 
   async signup(firstName, lastName, email, password) {
