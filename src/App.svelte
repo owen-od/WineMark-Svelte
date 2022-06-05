@@ -8,7 +8,7 @@
   import {PlacemarkService} from "./services/PlacemarkService.js";
   import { setContext } from "svelte";
 
-  setContext("PlacemarkService", new PlacemarkService("http://localhost:4000"));
+  setContext("PlacemarkService", new PlacemarkService("https://winemark.herokuapp.com"));
 
   let routes = {
     "/": Main,
