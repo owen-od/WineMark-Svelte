@@ -1,6 +1,10 @@
 <script>
   import WelcomeNavigator from "./components/WelcomeNavigator.svelte";
   import TitleBar from "./components/TitleBar.svelte";
+  import {getContext} from "svelte";
+
+  const placemarkService = getContext("PlacemarkService");
+  placemarkService.logout();
 </script>
 
 <div class="columns is-vcentered">
